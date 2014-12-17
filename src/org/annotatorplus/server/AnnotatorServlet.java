@@ -18,62 +18,65 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
 public class AnnotatorServlet extends HttpServlet {
-    
+
     private static final long serialVersionUID = -7313493486599524614L;
 
-    protected String getAnnotatorBaseURL(){
-	return "http://data.bioontology.org?";
+    protected String getAnnotatorBaseURL() {
+        return "http://data.bioontology.org/annotator?apikey=0ea81d74-8960-4505-810b-fa1baab576f0&";
     }
 
     // redirect GET to POST
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	doPost(req, resp);
+        doPost(req, resp);
     }
 
     // POST
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
 
-	// make query URL
-	String url = getAnnotatorBaseURL() + getURLParameters(req);
+        // make query URL
+        String url = getAnnotatorBaseURL() + getURLParameters(req);
 
-	// query annotator
-	HttpClient client = HttpClientBuilder.create().build(); //TODO remove old: new DefaultHttpClient();
-	HttpGet method = new HttpGet(url);
+        // query annotator
+        HttpClient client = HttpClientBuilder.create().build(); // TODO remove
+                                                                // old: new
+                                                                // DefaultHttpClient();
+        HttpGet method = new HttpGet(url);
 
-	HttpResponse httpResponse = null;
-	try {
-	    httpResponse = client.execute(method);
-	} catch (ClientProtocolException e) {
-	    e.printStackTrace();
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
-	
-	// process response
-	try {
-	    BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
+        HttpResponse httpResponse = null;
+        try {
+            httpResponse = client.execute(method);
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-	    // output results
-	    PrintWriter out = response.getWriter();
-	    response.setContentType("application/json;charset=UTF-8");
-	    String line = "";
-	    while ((line = reader.readLine()) != null) {
-		out.println(line);
-	    }
-	    out.flush();
+        // process response
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
 
-	} catch (IllegalStateException e) {
-	    e.printStackTrace();
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
-	try {
-	    EntityUtils.consume(httpResponse.getEntity());  //TODO remove old: .consumeContent();
-	} catch (IOException e1) {
-	    e1.printStackTrace();
-	}
+            // output results
+            PrintWriter out = response.getWriter();
+            response.setContentType("application/json;charset=UTF-8");
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                out.println(line);
+            }
+            out.flush();
+
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            EntityUtils.consume(httpResponse.getEntity()); // TODO remove old:
+                                                           // .consumeContent();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
     }
 
     /**
@@ -81,31 +84,31 @@ public class AnnotatorServlet extends HttpServlet {
      * @return String of URL parameters made from given request parameters
      */
     protected String getURLParameters(HttpServletRequest request) {
-	Enumeration<String> parameterNames = request.getParameterNames();
+        Enumeration<String> parameterNames = request.getParameterNames();
 
-	String parameters = "";
-	while (parameterNames.hasMoreElements()) {
+        String parameters = "";
+        while (parameterNames.hasMoreElements()) {
 
-	    String paramName = parameterNames.nextElement();
-	    parameters += paramName + "=";
+            String paramName = parameterNames.nextElement();
+            parameters += paramName + "=";
 
-	    String[] paramValues = request.getParameterValues(paramName);
-	    for (int i = 0; i < paramValues.length; i++) {
-		String paramValue = paramValues[i];
-		if (paramValues.length == 1) {
-		    parameters += paramValue + "&";
-		} else {
-		    if (i == 0) {
-			parameters += ""+paramValue;
-			if (paramValues.length == 1)
-			    parameters += "&";
-		    } else if (i == (paramValues.length - 1))
-			parameters += "," + paramValue + "&";
-		    else
-			parameters += "," + paramValue;
-		}
-	    }
-	}
-	return parameters;
-    } 
+            String[] paramValues = request.getParameterValues(paramName);
+            for (int i = 0; i < paramValues.length; i++) {
+                String paramValue = paramValues[i];
+                if (paramValues.length == 1) {
+                    parameters += paramValue + "&";
+                } else {
+                    if (i == 0) {
+                        parameters += "" + paramValue;
+                        if (paramValues.length == 1)
+                            parameters += "&";
+                    } else if (i == (paramValues.length - 1))
+                        parameters += "," + paramValue + "&";
+                    else
+                        parameters += "," + paramValue;
+                }
+            }
+        }
+        return parameters;
+    }
 }

@@ -5,17 +5,15 @@
          version="2.5"
          xmlns="http://java.sun.com/xml/ns/javaee">
 
-  <!-- Servlets -->
-  <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>org.annotatorplus.server.GreetingServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/annotatorplus/greet</url-pattern>
-  </servlet-mapping>
-  <servlet>
+  <!-- Servlets --><servlet>
+  	<servlet-name>root</servlet-name>
+  	<servlet-class>org.annotatorplus.server.RootServlet</servlet-class>
+</servlet>
+	<servlet-mapping>
+		<servlet-name>root</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	<servlet>
   	<servlet-name>annotator</servlet-name>
   	<servlet-class>org.annotatorplus.server.AnnotatorServlet</servlet-class>
   </servlet>
@@ -41,8 +39,5 @@
   </servlet-mapping>
 
   <!-- Default page to serve -->
-  <welcome-file-list>
-    <welcome-file>AnnotatorPlus.html</welcome-file>
-  </welcome-file-list>
 
 </web-app>

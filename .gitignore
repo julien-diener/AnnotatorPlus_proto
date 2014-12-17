@@ -28,3 +28,11 @@ local.properties
 
 # TeXlipse plugin
 .texlipse
+
+# tmp files
+*~
+gwt-unitCache
+war/WEB-INF/classes
+
+AnnotatorPlus.war
+
