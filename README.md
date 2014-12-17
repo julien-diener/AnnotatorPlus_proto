@@ -2,7 +2,7 @@ AnnotatorPlus
 =============
 
 
-Author: Julien Diener
+Author: [Julien Diener](https://github.com/julien-diener)
 
 Project heads: [Clement Jonquet](https://github.com/jonquet) and Pierre Larmande
 
